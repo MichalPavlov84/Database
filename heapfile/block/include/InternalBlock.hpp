@@ -10,8 +10,8 @@ template<typename Key>
 class InternalBlock : public BPlusTreeBlock<Key> {
 
 public:
-    InternalBlock(BlockType blockType, unsigned short blockSize)
-        : BPlusTreeBlock<Key>(blockType, blockSize) {
+    InternalBlock(std::uint16_t blockSize, BlockType blockType)
+        : BPlusTreeBlock<Key>(blockSize, blockType) {
     }
 };
 

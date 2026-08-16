@@ -10,8 +10,8 @@ template<typename Key>
 class LeafBlock : BPlusTreeBlock<Key> {
 
 public:
-    LeafBlock(BlockType blockType, unsigned short blockSize)
-        : BPlusTreeBlock<Key>(blockType, blockSize) {
+    LeafBlock(std::uint16_t blockSize, BlockType blockType)
+        : BPlusTreeBlock<Key>(blockSize, blockType) {
     }
 };
 

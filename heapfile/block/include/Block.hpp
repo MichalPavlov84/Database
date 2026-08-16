@@ -4,22 +4,23 @@
 
 #ifndef DATABASE_BLOCK_HPP
 #define DATABASE_BLOCK_HPP
+#include <cstdint>
 #include <vector>
 
-enum class BlockType {
+enum class BlockType : std::uint8_t {
     INTERNAL,
     LEAF
 };
 
 class Block {
+    const std::uint16_t blockSize;
     const BlockType blockType;
-    const unsigned short blockSize;
 
 public:
-    Block(BlockType blockType, unsigned short blockSize);
+    Block(std::uint16_t blockSize, BlockType blockType);
 
+    [[nodiscard]] std::uint16_t getBlockSize() const;
     [[nodiscard]] BlockType getBlockType() const;
-    [[nodiscard]] unsigned short getBlockSize() const;
 
     [[nodiscard]] virtual std::vector<std::byte> getBytes() const = 0;
 

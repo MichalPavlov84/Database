@@ -4,14 +4,14 @@
 
 #include "../include/Block.hpp"
 
-Block::Block(const BlockType blockType, const unsigned short blockSize)
-    : blockType(blockType), blockSize(blockSize) {
+Block::Block(const std::uint16_t blockSize, const BlockType blockType)
+    : blockSize(blockSize), blockType(blockType) {
+}
+
+std::uint16_t Block::getBlockSize() const {
+    return blockSize;
 }
 
 BlockType Block::getBlockType() const {
     return blockType;
-}
-
-unsigned short Block::getBlockSize() const {
-    return blockSize;
 }

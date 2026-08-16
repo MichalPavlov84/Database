@@ -17,8 +17,8 @@ public:
         Key separator;
     };
 
-    BPlusTreeBlock(const BlockType blockType, const unsigned short blockSize)
-        : Block(blockType, blockSize) {
+    BPlusTreeBlock(const std::uint16_t blockSize, const BlockType blockType)
+        : Block(blockSize, blockType) {
     }
 
     [[nodiscard]] virtual SplitResult split() = 0;
