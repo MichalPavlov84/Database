@@ -8,13 +8,14 @@
 #include <vector>
 
 enum class BlockType : std::uint8_t {
+    FREE_ADDRESSES_BLOCK,
     INTERNAL,
     LEAF
 };
 
 class Block {
-    const std::uint16_t blockSize;
-    const BlockType blockType;
+    const std::uint16_t blockSize_;
+    const BlockType blockType_;
 
 public:
     Block(std::uint16_t blockSize, BlockType blockType);

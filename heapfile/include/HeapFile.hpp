@@ -13,14 +13,14 @@
 
 template <std::derived_from<Block> BLOCK>
 class HeapFile {
-    const std::fstream file;
-    const std::uint16_t blockSize;
+    const std::fstream file_;
+    const std::uint16_t blockSize_;
 
     HeapFile(std::fstream&& file, const std::uint16_t blockSize)
-        : file(std::move(file)), blockSize(blockSize) { }
+        : file_(std::move(file)), blockSize_(blockSize) { }
 
     [[nodiscard]] std::streamoff getAddressFromBlockId(const std::uint64_t blockId) const {
-        return static_cast<std::streamoff>(blockId) * blockSize;
+        return static_cast<std::streamoff>(blockId) * blockSize_;
     }
 
 public:
@@ -58,7 +58,7 @@ public:
     }
 
     [[nodiscard]] int getBlockSize() const {
-        return blockSize;
+        return blockSize_;
     }
 
     BLOCK readABlockFromFile(const std::uint64_t blockId) {

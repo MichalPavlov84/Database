@@ -7,11 +7,11 @@
 #include "BPlusTreeBlock.hpp"
 
 template<typename Key>
-class LeafBlock : BPlusTreeBlock<Key> {
+class LeafBlock final : BPlusTreeBlock<Key> {
 
 public:
-    LeafBlock(std::uint16_t blockSize, BlockType blockType)
-        : BPlusTreeBlock<Key>(blockSize, blockType) {
+    explicit LeafBlock(std::uint16_t blockSize)
+        : BPlusTreeBlock<Key>(blockSize, BlockType::LEAF) {
     }
 };
 

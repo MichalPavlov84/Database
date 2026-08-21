@@ -13,8 +13,8 @@ class BPlusTreeBlock : public Block {
 public:
 
     struct SplitResult {
-        std::unique_ptr<BPlusTreeBlock> rightBlock;
-        Key separator;
+        std::unique_ptr<BPlusTreeBlock> rightBlock_;
+        Key separator_;
     };
 
     BPlusTreeBlock(const std::uint16_t blockSize, const BlockType blockType)

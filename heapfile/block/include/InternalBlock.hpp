@@ -7,11 +7,11 @@
 #include "BPlusTreeBlock.hpp"
 
 template<typename Key>
-class InternalBlock : public BPlusTreeBlock<Key> {
+class InternalBlock final : public BPlusTreeBlock<Key> {
 
 public:
-    InternalBlock(std::uint16_t blockSize, BlockType blockType)
-        : BPlusTreeBlock<Key>(blockSize, blockType) {
+    explicit InternalBlock(std::uint16_t blockSize)
+        : BPlusTreeBlock<Key>(blockSize, BlockType::INTERNAL) {
     }
 };
 
