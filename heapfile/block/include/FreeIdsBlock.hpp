@@ -9,14 +9,14 @@
 #include "Block.hpp"
 
 
-class FreeAddressesBlock final : public Block {
+class FreeIdsBlock final : public Block {
     std::uint64_t nextFreeBlockId_;
     std::vector<std::uint64_t> freeBlockIds_;
 
 public:
     static constexpr std::uint64_t INVALID_BLOCK_ID = std::numeric_limits<std::uint64_t>::max();
 
-    explicit FreeAddressesBlock(std::uint16_t blockSize);
+    explicit FreeIdsBlock(std::uint16_t blockSize);
 
     [[nodiscard]] std::vector<std::byte> getBytes() const override;
 
@@ -26,7 +26,7 @@ public:
     void setNextFreeBlockId(std::uint64_t nextFreeBlockId);
     void setFreeBlockIds(std::vector<std::uint64_t>&& freeBlockIds);
 
-    ~FreeAddressesBlock() override = default;
+    ~FreeIdsBlock() override = default;
 };
 
 

@@ -8,7 +8,7 @@
 #include <vector>
 
 enum class BlockType : std::uint8_t {
-    FREE_ADDRESSES_BLOCK,
+    FREE_IDS_BLOCK,
     INTERNAL,
     LEAF
 };

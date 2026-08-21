@@ -10,6 +10,6 @@ add_executable(Database main.cpp
         heapfile/block/include/InternalBlock.hpp
         heapfile/block/include/LeafBlock.hpp
         heapfile/block/include/BPlusTreeBlock.hpp
-        heapfile/block/src/FreeAddressesBlock.cpp
-        heapfile/block/include/FreeAddressesBlock.hpp
+        heapfile/block/src/FreeIdsBlock.cpp
+        heapfile/block/include/FreeIdsBlock.hpp
 )
