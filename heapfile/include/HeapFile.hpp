@@ -19,7 +19,7 @@ class HeapFile {
     HeapFile(std::fstream&& file, const std::uint16_t blockSize)
         : file(std::move(file)), blockSize(blockSize) { }
 
-    [[nodiscard]] std::streamoff getAddressFromBlockId(const int blockId) const {
+    [[nodiscard]] std::streamoff getAddressFromBlockId(const std::uint32_t blockId) const {
         return static_cast<std::streamoff>(blockId) * blockSize;
     }
 
@@ -61,7 +61,7 @@ public:
         return blockSize;
     }
 
-    BLOCK readABlockFromFile(int blockId) {
+    BLOCK readABlockFromFile(const std::uint16_t blockSize) {
 
     }
 
@@ -69,7 +69,7 @@ public:
 
     }
 
-    bool freeABlockFromFile(int blockId) {
+    bool freeABlockFromFile(const std::uint16_t blockSize) {
 
     }
 };
