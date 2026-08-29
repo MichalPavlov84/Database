@@ -22,6 +22,7 @@ std::vector<std::byte> Block::getBytes() const {
     }
 
     bytes.resize(blockSize_, std::byte{0});
+
     return bytes;
 }
 
