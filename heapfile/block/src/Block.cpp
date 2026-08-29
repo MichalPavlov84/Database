@@ -8,6 +8,14 @@ Block::Block(const std::uint16_t blockSize, const BlockType blockType)
     : blockSize_(blockSize), blockType_(blockType) {
 }
 
+std::vector<std::byte> Block::getBytes() const {
+    std::vector<std::byte> bytes(blockSize_);
+
+    appendBytes(bytes, );
+
+    return bytes;
+}
+
 std::uint16_t Block::getBlockSize() const {
     return blockSize_;
 }

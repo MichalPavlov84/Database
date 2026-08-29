@@ -37,7 +37,7 @@ public:
     [[nodiscard]] std::uint16_t getBlockSize() const;
     [[nodiscard]] BlockType getBlockType() const;
 
-    [[nodiscard]] virtual std::vector<std::byte> getBytes() const = 0;
+    [[nodiscard]] std::vector<std::byte> getBytes() const;
 
     virtual ~Block() = default;
 };
