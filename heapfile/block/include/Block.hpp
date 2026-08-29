@@ -29,7 +29,7 @@ protected:
         std::memcpy(bytes.data() + oldSize, &value, sizeof(T));
     }
 
-    virtual void appendData(std::vector<std::byte>& bytes) = 0;
+    virtual void appendData(std::vector<std::byte>& bytes) const = 0;
 
 public:
     Block(std::uint16_t blockSize, BlockType blockType);

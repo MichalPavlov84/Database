@@ -9,9 +9,11 @@ Block::Block(const std::uint16_t blockSize, const BlockType blockType)
 }
 
 std::vector<std::byte> Block::getBytes() const {
-    std::vector<std::byte> bytes(blockSize_);
+    std::vector<std::byte> bytes;
+    bytes.reserve(blockSize_);
 
-    appendBytes(bytes, );
+    appendBytes(bytes, blockType_);
+    appendData(bytes);
 
     return bytes;
 }
