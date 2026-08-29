@@ -4,6 +4,8 @@
 
 #include "../include/Block.hpp"
 
+#include <stdexcept>
+
 Block::Block(const std::uint16_t blockSize, const BlockType blockType)
     : blockSize_(blockSize), blockType_(blockType) {
 }
@@ -15,6 +17,11 @@ std::vector<std::byte> Block::getBytes() const {
     appendBytes(bytes, blockType_);
     appendData(bytes);
 
+    if (bytes.size() > blockSize_) {
+        throw std::length_error("Serialized block exceeds block size");
+    }
+
+    bytes.resize(blockSize_, std::byte{0});
     return bytes;
 }
 

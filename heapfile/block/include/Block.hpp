@@ -29,6 +29,19 @@ protected:
         std::memcpy(bytes.data() + oldSize, &value, sizeof(T));
     }
 
+    template<typename T>
+    requires std::is_trivially_copyable_v<T>
+    static void appendVectorBytes(std::vector<std::byte>& bytes, const std::vector<T>& values) {
+        appendBytes(bytes, static_cast<std::uint16_t>(values.size()));
+
+        const std::size_t oldSize = bytes.size();
+        const std::size_t dataSize = values.size() * sizeof(T);
+
+        bytes.resize(oldSize + dataSize);
+
+        std::memcpy(bytes.data() + oldSize, values.data(), dataSize);
+    }
+
     virtual void appendData(std::vector<std::byte>& bytes) const = 0;
 
 public:

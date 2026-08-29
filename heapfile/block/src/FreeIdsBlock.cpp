@@ -4,11 +4,19 @@
 
 #include "../include/FreeIdsBlock.hpp"
 
-FreeIdsBlock::FreeIdsBlock(const std::uint16_t blockSize)
-    : Block(blockSize, BlockType::FREE_IDS_BLOCK){
+FreeIdsBlock::FreeIdsBlock(
+    const std::uint16_t blockSize,
+    const std::vector<std::uint64_t>& freeBlockIds,
+    const std::uint64_t nextFreeBlockId
+    )
+    : Block(blockSize, BlockType::FREE_IDS_BLOCK),
+    freeBlockIds_(freeBlockIds),
+    nextFreeBlockId_(nextFreeBlockId) {
 }
 
-std::vector<std::byte> FreeIdsBlock::getBytes() const {
+void FreeIdsBlock::appendData(std::vector<std::byte> &bytes) const {
+    appendVectorBytes(bytes, freeBlockIds_);
+    appendBytes(bytes, nextFreeBlockId_);
 }
 
 std::uint64_t FreeIdsBlock::getNextFreeBlockId() const {
@@ -17,12 +25,4 @@ std::uint64_t FreeIdsBlock::getNextFreeBlockId() const {
 
 std::vector<std::uint64_t> FreeIdsBlock::getFreeBlockIds() const {
     return freeBlockIds_;
-}
-
-void FreeIdsBlock::setNextFreeBlockId(const std::uint64_t nextFreeBlockId) {
-    nextFreeBlockId_ = nextFreeBlockId;
-}
-
-void FreeIdsBlock::setFreeBlockIds(std::vector<std::uint64_t>&& freeBlockIds) {
-    freeBlockIds_ = std::move(freeBlockIds);
 }

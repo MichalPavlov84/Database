@@ -10,21 +10,23 @@
 
 
 class FreeIdsBlock final : public Block {
-    std::uint64_t nextFreeBlockId_;
-    std::vector<std::uint64_t> freeBlockIds_;
+    const std::vector<std::uint64_t> freeBlockIds_;
+    const std::uint64_t nextFreeBlockId_;
+
+protected:
+    void appendData(std::vector<std::byte> &bytes) const override;
 
 public:
     static constexpr std::uint64_t INVALID_BLOCK_ID = std::numeric_limits<std::uint64_t>::max();
 
-    explicit FreeIdsBlock(std::uint16_t blockSize);
-
-    [[nodiscard]] std::vector<std::byte> getBytes() const override;
+    FreeIdsBlock(
+        std::uint16_t blockSize,
+        const std::vector<std::uint64_t>& freeBlockIds,
+        std::uint64_t nextFreeBlockId
+        );
 
     [[nodiscard]] std::uint64_t getNextFreeBlockId() const;
     [[nodiscard]] std::vector<std::uint64_t> getFreeBlockIds() const;
-
-    void setNextFreeBlockId(std::uint64_t nextFreeBlockId);
-    void setFreeBlockIds(std::vector<std::uint64_t>&& freeBlockIds);
 
     ~FreeIdsBlock() override = default;
 };
