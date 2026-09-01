@@ -9,7 +9,7 @@
 class LeafBlock final : BPlusTreeBlock {
 
 public:
-    explicit LeafBlock(std::uint16_t blockSize)
+    explicit LeafBlock(const std::uint16_t blockSize)
         : BPlusTreeBlock(blockSize, BlockType::LEAF) {
     }
 };

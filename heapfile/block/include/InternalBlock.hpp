@@ -9,7 +9,7 @@
 class InternalBlock final : public BPlusTreeBlock {
 
 public:
-    explicit InternalBlock(std::uint16_t blockSize)
+    explicit InternalBlock(const std::uint16_t blockSize)
         : BPlusTreeBlock(blockSize, BlockType::INTERNAL) {
     }
 };
