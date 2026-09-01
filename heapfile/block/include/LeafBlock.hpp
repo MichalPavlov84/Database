@@ -6,12 +6,11 @@
 #define DATABASE_LEAFBLOCK_HPP
 #include "BPlusTreeBlock.hpp"
 
-template<typename Key>
-class LeafBlock final : BPlusTreeBlock<Key> {
+class LeafBlock final : BPlusTreeBlock {
 
 public:
     explicit LeafBlock(std::uint16_t blockSize)
-        : BPlusTreeBlock<Key>(blockSize, BlockType::LEAF) {
+        : BPlusTreeBlock(blockSize, BlockType::LEAF) {
     }
 };
 

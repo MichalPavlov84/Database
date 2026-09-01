@@ -4,24 +4,16 @@
 
 #ifndef DATABASE_BPLUSTREEBLOCK_HPP
 #define DATABASE_BPLUSTREEBLOCK_HPP
-#include <memory>
 #include "Block.hpp"
 
-template<typename Key>
 class BPlusTreeBlock : public Block {
 
 public:
-
-    struct SplitResult {
-        std::unique_ptr<BPlusTreeBlock> rightBlock_;
-        Key separator_;
-    };
 
     BPlusTreeBlock(const std::uint16_t blockSize, const BlockType blockType)
         : Block(blockSize, blockType) {
     }
 
-    [[nodiscard]] virtual SplitResult split() = 0;
     [[nodiscard]] virtual bool isFull() const = 0;
     [[nodiscard]] virtual bool isUnderFlow() const = 0;
 

@@ -6,12 +6,11 @@
 #define DATABASE_INTERNALBLOCK_HPP
 #include "BPlusTreeBlock.hpp"
 
-template<typename Key>
-class InternalBlock final : public BPlusTreeBlock<Key> {
+class InternalBlock final : public BPlusTreeBlock {
 
 public:
     explicit InternalBlock(std::uint16_t blockSize)
-        : BPlusTreeBlock<Key>(blockSize, BlockType::INTERNAL) {
+        : BPlusTreeBlock(blockSize, BlockType::INTERNAL) {
     }
 };
 

@@ -4,7 +4,7 @@
 
 #include "../include/HeapFile.hpp"
 
-HeapFile::HeapFile(std::fstream &&file, const std::uint16_t blockSize)
+HeapFile::HeapFile(std::fstream&& file, const std::uint16_t blockSize)
     : file_(std::move(file)), blockSize_(blockSize) { }
 
 std::streamoff HeapFile::getAddressFromBlockId(const std::uint64_t blockId) const {
@@ -12,7 +12,7 @@ std::streamoff HeapFile::getAddressFromBlockId(const std::uint64_t blockId) cons
 }
 
 
-HeapFile HeapFile::create(const std::filesystem::path &filePath, const std::uint16_t blockSize) {
+HeapFile HeapFile::create(const std::filesystem::path& filePath, const std::uint16_t blockSize) {
     if (std::filesystem::exists(filePath)) {
         throw std::filesystem::filesystem_error(
             "File already exists",
@@ -20,11 +20,11 @@ HeapFile HeapFile::create(const std::filesystem::path &filePath, const std::uint
             std::make_error_code(std::errc::file_exists)
         );
     }
-    //TODO
-    //return HeapFile(blockSize);
+    std::fstream file(filePath, std::ios::in | std::ios::out | std::ios::binary);
+    return {std::move(file), blockSize};
 }
 
-HeapFile HeapFile::open(const std::filesystem::path &filePath) {
+HeapFile HeapFile::open(const std::filesystem::path& filePath) {
     if (!std::filesystem::exists(filePath)) {
         throw std::filesystem::filesystem_error(
             "File doesn't exists",
@@ -40,8 +40,8 @@ HeapFile HeapFile::open(const std::filesystem::path &filePath) {
             std::make_error_code(std::errc::invalid_argument)
         );
     }
+    std::fstream file(filePath, std::ios::in | std::ios::out | std::ios::binary);
     //TODO
-    //return HeapFile(blockSize);
 }
 
 int HeapFile::getBlockSize() const {
