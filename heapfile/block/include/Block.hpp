@@ -9,6 +9,7 @@
 #include <vector>
 
 enum class BlockType : std::uint8_t {
+    HEAP_FILE_HEADER,
     FREE_IDS_BLOCK,
     INTERNAL,
     LEAF

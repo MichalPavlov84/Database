@@ -26,15 +26,9 @@ public:
 
     [[nodiscard]] int getBlockSize() const;
 
-    template <std::derived_from<Block> BLOCK>
-    BLOCK readABlockFromFile(const std::uint64_t blockId) {
+    std::vector<std::byte> readABlockFromFile(std::uint64_t blockId);
 
-    }
-
-    template <std::derived_from<Block> BLOCK>
-    void writeABlockToFile(const BLOCK& block) {
-
-    }
+    void writeABlockToFile(const Block& block);
 
     bool freeABlockFromFile(std::uint64_t blockId);
 };

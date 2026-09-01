@@ -48,5 +48,13 @@ int HeapFile::getBlockSize() const {
     return blockSize_;
 }
 
+std::vector<std::byte> HeapFile::readABlockFromFile(std::uint64_t blockId) {
+
+}
+
+void HeapFile::writeABlockToFile(const Block &block) {
+
+}
+
 bool HeapFile::freeABlockFromFile(const std::uint64_t blockId) {
 }
