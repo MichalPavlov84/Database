@@ -6,8 +6,8 @@
 
 FreeIdsBlock::FreeIdsBlock(
     const std::uint16_t blockSize,
-    const std::vector<std::uint64_t>& freeBlockIds,
-    const std::uint64_t nextFreeBlockId
+    const std::vector<BlockId>& freeBlockIds,
+    const BlockId nextFreeBlockId
     )
     : Block(blockSize, BlockType::FREE_IDS_BLOCK),
     freeBlockIds_(freeBlockIds),
@@ -19,10 +19,10 @@ void FreeIdsBlock::appendData(std::vector<std::byte> &bytes) const {
     appendBytes(bytes, nextFreeBlockId_);
 }
 
-std::uint64_t FreeIdsBlock::getNextFreeBlockId() const {
+BlockId FreeIdsBlock::getNextFreeBlockId() const {
     return nextFreeBlockId_;
 }
 
-std::vector<std::uint64_t> FreeIdsBlock::getFreeBlockIds() const {
+std::vector<BlockId> FreeIdsBlock::getFreeBlockIds() const {
     return freeBlockIds_;
 }

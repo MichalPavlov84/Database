@@ -4,33 +4,37 @@
 
 #ifndef DATABASE_HEAPFILE_HPP
 #define DATABASE_HEAPFILE_HPP
-#include <concepts>
+
 #include <filesystem>
 #include <ios>
 #include <fstream>
+#include <set>
 
+#include "../../Types.hpp"
 #include "../block/include/Block.hpp"
 
 class HeapFile {
-    const std::fstream file_;
+    std::fstream file_;
+    std::set<BlockId> freeBlockIds_;
+    std::uint64_t blockCount_;
     const std::uint16_t blockSize_;
 
-    HeapFile(std::fstream&& file, std::uint16_t blockSize);
+    HeapFile(std::fstream&& file, std::uint64_t blockCount, std::uint16_t blockSize);
 
-    [[nodiscard]] std::streamoff getAddressFromBlockId(std::uint64_t blockId) const;
+    [[nodiscard]] std::streamoff getAddressFromBlockId(BlockId blockId) const;
 
 public:
 
     static HeapFile create(const std::filesystem::path& filePath, std::uint16_t blockSize);
     static HeapFile open(const std::filesystem::path& filePath);
+    void close();
 
     [[nodiscard]] int getBlockSize() const;
 
-    std::vector<std::byte> readABlockFromFile(std::uint64_t blockId);
-
-    void writeABlockToFile(const Block& block);
-
-    bool freeABlockFromFile(std::uint64_t blockId);
+    BlockId allocateBlock();
+    std::vector<std::byte> readBlock(BlockId blockId);
+    void writeBlock(BlockId blockId, const Block& block);
+    void freeBlock(BlockId blockId);
 };
 
 

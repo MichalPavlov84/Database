@@ -7,26 +7,26 @@
 #include <limits>
 
 #include "Block.hpp"
-
+#include "../../../Types.hpp"
 
 class FreeIdsBlock final : public Block {
-    const std::vector<std::uint64_t> freeBlockIds_;
-    const std::uint64_t nextFreeBlockId_;
+    const std::vector<BlockId> freeBlockIds_;
+    const BlockId nextFreeBlockId_;
 
 protected:
     void appendData(std::vector<std::byte> &bytes) const override;
 
 public:
-    static constexpr std::uint64_t INVALID_BLOCK_ID = std::numeric_limits<std::uint64_t>::max();
+    static constexpr BlockId INVALID_BLOCK_ID = std::numeric_limits<BlockId>::max();
 
     FreeIdsBlock(
         std::uint16_t blockSize,
-        const std::vector<std::uint64_t>& freeBlockIds,
-        std::uint64_t nextFreeBlockId
+        const std::vector<BlockId>& freeBlockIds,
+        BlockId nextFreeBlockId
         );
 
-    [[nodiscard]] std::uint64_t getNextFreeBlockId() const;
-    [[nodiscard]] std::vector<std::uint64_t> getFreeBlockIds() const;
+    [[nodiscard]] BlockId getNextFreeBlockId() const;
+    [[nodiscard]] std::vector<BlockId> getFreeBlockIds() const;
 
     ~FreeIdsBlock() override = default;
 };

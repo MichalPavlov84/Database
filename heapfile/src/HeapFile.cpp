@@ -4,10 +4,10 @@
 
 #include "../include/HeapFile.hpp"
 
-HeapFile::HeapFile(std::fstream&& file, const std::uint16_t blockSize)
-    : file_(std::move(file)), blockSize_(blockSize) { }
+HeapFile::HeapFile(std::fstream&& file, const std::uint64_t blockCount, const std::uint16_t blockSize)
+    : file_(std::move(file)), blockCount_(blockCount), blockSize_(blockSize) { }
 
-std::streamoff HeapFile::getAddressFromBlockId(const std::uint64_t blockId) const {
+std::streamoff HeapFile::getAddressFromBlockId(const BlockId blockId) const {
     return static_cast<std::streamoff>(blockId) * blockSize_;
 }
 
@@ -20,8 +20,25 @@ HeapFile HeapFile::create(const std::filesystem::path& filePath, const std::uint
             std::make_error_code(std::errc::file_exists)
         );
     }
-    std::fstream file(filePath, std::ios::in | std::ios::out | std::ios::binary);
-    return {std::move(file), blockSize};
+    std::fstream file;
+    file.exceptions(std::ios::failbit | std::ios::badbit);
+
+    file.open(
+        filePath,
+        std::ios::in |
+        std::ios::out |
+        std::ios::binary |
+        std::ios::trunc
+    );
+
+    const std::vector emptyBlock(blockSize, std::byte{0});
+    file.seekp(0, std::ios::beg);
+    file.write(
+        reinterpret_cast<const std::ostream::char_type *>(emptyBlock.data()),
+        static_cast<std::streamsize>(emptyBlock.size())
+    );
+
+    return {std::move(file), 1, blockSize};
 }
 
 HeapFile HeapFile::open(const std::filesystem::path& filePath) {
@@ -40,21 +57,51 @@ HeapFile HeapFile::open(const std::filesystem::path& filePath) {
             std::make_error_code(std::errc::invalid_argument)
         );
     }
-    std::fstream file(filePath, std::ios::in | std::ios::out | std::ios::binary);
+
+    std::fstream file;
+    file.exceptions(std::ios::failbit | std::ios::badbit);
+
+    file.open(filePath, std::ios::in | std::ios::out | std::ios::binary);
     //TODO
 }
+
+void HeapFile::close() {
+    if (!file_.is_open()) {
+        return;
+    }
+    //TODO
+    file_.flush();
+    file_.close();
+}
+
 
 int HeapFile::getBlockSize() const {
     return blockSize_;
 }
 
-std::vector<std::byte> HeapFile::readABlockFromFile(std::uint64_t blockId) {
+BlockId HeapFile::allocateBlock() {
+    if (!freeBlockIds_.empty()) {
+        const BlockId blockId = *freeBlockIds_.begin();
+        freeBlockIds_.erase(blockId);
+        return blockId;
+    }
+    //TODO
+    ++blockCount_;
+}
+
+std::vector<std::byte> HeapFile::readBlock(BlockId blockId) {
 
 }
 
-void HeapFile::writeABlockToFile(const Block &block) {
+void HeapFile::writeBlock(const BlockId blockId,  const Block& block) {
+    if (blockId == 0) {
+        throw std::invalid_argument("Block ID 0 is reserved for the header");
+    }
+    if (blockId >= blockCount_) {
+        throw std::out_of_range("Block ID is outside the file");
+    }
 
 }
 
-bool HeapFile::freeABlockFromFile(const std::uint64_t blockId) {
+void HeapFile::freeBlock(const BlockId blockId) {
 }

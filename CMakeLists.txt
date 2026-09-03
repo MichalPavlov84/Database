@@ -13,4 +13,5 @@ add_executable(Database main.cpp
         heapfile/block/src/FreeIdsBlock.cpp
         heapfile/block/include/FreeIdsBlock.hpp
         heapfile/src/HeapFile.cpp
+        Types.hpp
 )
