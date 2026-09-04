@@ -34,7 +34,7 @@ HeapFile HeapFile::create(const std::filesystem::path& filePath, const std::uint
     const std::vector emptyBlock(blockSize, std::byte{0});
     file.seekp(0, std::ios::beg);
     file.write(
-        reinterpret_cast<const std::ostream::char_type *>(emptyBlock.data()),
+        reinterpret_cast<const std::ostream::char_type*>(emptyBlock.data()),
         static_cast<std::streamsize>(emptyBlock.size())
     );
 
