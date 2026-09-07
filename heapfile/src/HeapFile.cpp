@@ -11,6 +11,17 @@ std::streamoff HeapFile::getAddressFromBlockId(const BlockId blockId) const {
     return static_cast<std::streamoff>(blockId) * blockSize_;
 }
 
+void HeapFile::writeBlockBytesAtId(
+    std::fstream& file,
+    const std::streamoff address,
+    const std::vector<std::byte>& bytes
+) {
+    file.seekp(address, std::ios::beg);
+    file.write(
+        reinterpret_cast<const std::ostream::char_type*>(bytes.data()),
+        static_cast<std::streamsize>(bytes.size())
+    );
+}
 
 HeapFile HeapFile::create(const std::filesystem::path& filePath, const std::uint16_t blockSize) {
     if (std::filesystem::exists(filePath)) {
@@ -32,11 +43,7 @@ HeapFile HeapFile::create(const std::filesystem::path& filePath, const std::uint
     );
 
     const std::vector emptyBlock(blockSize, std::byte{0});
-    file.seekp(0, std::ios::beg);
-    file.write(
-        reinterpret_cast<const std::ostream::char_type*>(emptyBlock.data()),
-        static_cast<std::streamsize>(emptyBlock.size())
-    );
+    writeBlockBytesAtId(file, 0, emptyBlock);
 
     return {std::move(file), 1, blockSize};
 }
@@ -79,14 +86,12 @@ int HeapFile::getBlockSize() const {
     return blockSize_;
 }
 
-BlockId HeapFile::allocateBlock() {
+BlockId HeapFile::allocateBlock() const {
+    //asi urobit metodu write new block alebo nieco
     if (!freeBlockIds_.empty()) {
-        const BlockId blockId = *freeBlockIds_.begin();
-        freeBlockIds_.erase(blockId);
-        return blockId;
+        return *freeBlockIds_.begin();
     }
-    //TODO
-    ++blockCount_;
+    return blockCount_;
 }
 
 std::vector<std::byte> HeapFile::readBlock(BlockId blockId) {
@@ -97,8 +102,13 @@ void HeapFile::writeBlock(const BlockId blockId,  const Block& block) {
     if (blockId == 0) {
         throw std::invalid_argument("Block ID 0 is reserved for the header");
     }
-    if (blockId >= blockCount_) {
-        throw std::out_of_range("Block ID is outside the file");
+    if (blockId >= blockCount_ + 1) {
+        throw std::out_of_range("Block ID exceeds the writable block range");
+    }
+
+
+    if (blockId == blockCount_) {
+        ++blockCount_;
     }
 
 }

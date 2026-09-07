@@ -23,6 +23,7 @@ class HeapFile {
 
     [[nodiscard]] std::streamoff getAddressFromBlockId(BlockId blockId) const;
 
+    static void writeBlockBytesAtId(std::fstream& file, std::streamoff address, const std::vector<std::byte>& bytes);
 public:
 
     static HeapFile create(const std::filesystem::path& filePath, std::uint16_t blockSize);
@@ -31,7 +32,7 @@ public:
 
     [[nodiscard]] int getBlockSize() const;
 
-    BlockId allocateBlock();
+    BlockId allocateBlock() const;
     std::vector<std::byte> readBlock(BlockId blockId);
     void writeBlock(BlockId blockId, const Block& block);
     void freeBlock(BlockId blockId);
