@@ -15,19 +15,22 @@
 
 class HeapFile {
     std::fstream file_;
+    std::filesystem::path filePath_;
     std::set<BlockId> freeBlockIds_;
     std::uint64_t blockCount_;
     const std::uint16_t blockSize_;
 
-    HeapFile(std::fstream&& file, std::uint64_t blockCount, std::uint16_t blockSize);
+    HeapFile(std::fstream&& file, std::filesystem::path&& filePath, std::uint64_t blockCount, std::uint16_t blockSize);
 
     [[nodiscard]] std::streamoff getAddressFromBlockId(BlockId blockId) const;
+    [[nodiscard]] BlockId getBlockIdFromAddress(std::streamoff address) const;
 
     static void writeBlockBytesAtId(std::fstream& file, std::streamoff address, const std::vector<std::byte>& bytes);
+    static std::vector<std::byte> readBlockInternal(std::fstream& file, std::streamoff address, std::uint16_t blockSize);
 public:
 
-    static HeapFile create(const std::filesystem::path& filePath, std::uint16_t blockSize);
-    static HeapFile open(const std::filesystem::path& filePath);
+    static HeapFile create(std::filesystem::path&& filePath, std::uint16_t blockSize);
+    static HeapFile open(std::filesystem::path&& filePath);
     void close();
 
     [[nodiscard]] int getBlockSize() const;
