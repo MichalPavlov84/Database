@@ -9,7 +9,7 @@ FreeIdsBlock::FreeIdsBlock(
     const std::vector<BlockId>& freeBlockIds,
     const BlockId nextFreeBlockId
     )
-    : Block(blockSize, BlockType::FREE_IDS_BLOCK),
+    : Block(blockSize, BlockType::FREE_IDS),
     freeBlockIds_(freeBlockIds),
     nextFreeBlockId_(nextFreeBlockId) {
 }

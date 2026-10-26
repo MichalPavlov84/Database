@@ -39,6 +39,7 @@ std::vector<std::byte> HeapFile::readBlockInternal(
         reinterpret_cast<std::ostream::char_type*>(bytes.data()),
         static_cast<std::streamsize>(bytes.size())
     );
+    return bytes;
 }
 
 HeapFile HeapFile::create(std::filesystem::path&& filePath, const std::uint16_t blockSize) {
@@ -104,12 +105,14 @@ int HeapFile::getBlockSize() const {
     return blockSize_;
 }
 
-BlockId HeapFile::allocateBlock() const {
-    //asi urobit metodu write new block alebo nieco
+void HeapFile::writeBlockAtFreeSpace(const Block &block) {
+    BlockId freeBlockId;
     if (!freeBlockIds_.empty()) {
-        return *freeBlockIds_.begin();
+        freeBlockId = *freeBlockIds_.begin();
+    } else {
+        freeBlockId = blockCount_;
     }
-    return blockCount_;
+    writeBlock(freeBlockId, block);
 }
 
 std::vector<std::byte> HeapFile::readBlock(const BlockId blockId) {

@@ -10,9 +10,7 @@ class BPlusTreeBlock : public Block {
 
 public:
 
-    BPlusTreeBlock(const std::uint16_t blockSize, const BlockType blockType)
-        : Block(blockSize, blockType) {
-    }
+    BPlusTreeBlock(std::uint16_t blockSize, BlockType blockType);
 
     [[nodiscard]] virtual bool isFull() const = 0;
     [[nodiscard]] virtual bool isUnderFlow() const = 0;

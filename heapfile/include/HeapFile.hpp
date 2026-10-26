@@ -35,7 +35,7 @@ public:
 
     [[nodiscard]] int getBlockSize() const;
 
-    BlockId allocateBlock() const;
+    void writeBlockAtFreeSpace(const Block& block);
     std::vector<std::byte> readBlock(BlockId blockId);
     void writeBlock(BlockId blockId, const Block& block);
     void freeBlock(BlockId blockId);
